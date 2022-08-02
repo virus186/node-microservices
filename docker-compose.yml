@@ -1,0 +1,28 @@
+version: "3"
+services:  
+  listing-service:
+    build:
+        context: "."
+        dockerfile: "./listing-service/Dockerfile"
+    depends_on:
+      - listing-service-db
+    volumes:
+      - ./listing-service:/opt/app
+  listing-service-db:
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=db
+    image: mysql:8.0.29
+  user-service:
+    build:
+        context: "."
+        dockerfile: "./user-service/Dockerfile"
+    depends_on:
+      - user-service-db
+    volumes:
+      - ./user-service:/opt/app
+  user-service-db:
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=db
+    image: mysql:8.0.29
